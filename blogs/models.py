@@ -16,7 +16,7 @@ class Category(models.Model):
         return self.category_name
 
 
-STATUS_CHOICE = (("Draft", "Draft"), ("Publishded", "Published"))
+STATUS_CHOICE = (("Draft", "Draft"), ("Published", "Published"))
 
 
 class Blog(models.Model):
@@ -25,8 +25,8 @@ class Blog(models.Model):
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     featured_image = models.ImageField(upload_to="upload/%Y/%m/%d")
-    short_description = models.CharField(max_length=500)
-    blog_body = models.CharField(max_length=3000)
+    short_description = models.TextField(max_length=500)
+    blog_body = models.TextField(max_length=3000)
     status = models.CharField(max_length=20, choices=STATUS_CHOICE, default="Draft")
     is_featured = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
