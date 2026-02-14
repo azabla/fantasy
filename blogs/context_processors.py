@@ -1,4 +1,4 @@
-from .models import Category, About
+from .models import Category, About, SocialLink
 
 
 def get_categories(request):
@@ -6,7 +6,6 @@ def get_categories(request):
     return dict(categories=categories)
 
 
-# def get_About(request):
-#     about = About.objects.first()
-#     print(about)
-#     return dict(about=about)
+def get_social_links(request):
+    social_links = SocialLink.objects.all()
+    return dict(social_links=social_links)
