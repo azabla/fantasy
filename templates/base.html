@@ -20,14 +20,20 @@
           <div class="col-4">
             <form action="{% url "search" %}" method="GET">
               <div class="input-group">
-                <input class="form-control" name="keyword" type="text" value={{keyword}} placeholder="Enter search term..." aria-label="Enter search term..." aria-describedby="button-search" />
+                <input class="form-control" name="keyword" type="text" value="{{keyword}}" placeholder="Enter search term..." aria-label="Enter search term..." aria-describedby="button-search" />
                 <button type="submit" class="btn btn-warning" id="button-search" type="button">Go!</button>
             </div>
             </form>
           </div>
           <div class="col-4 d-flex justify-content-end align-items-center">
-            <a class="btn btn-sm btn-warning" href="#">Login</a> &nbsp;
-            <a class="btn btn-sm btn-outline-secondary" href="#">Register</a>
+            {% if not user.is_authenticated %}
+            <a class="btn btn-sm btn-warning" href="{% url 'login' %}">Login</a> &nbsp;
+            <a class="btn btn-sm btn-outline-secondary" href="{% url "register" %}">Register</a>
+            {% else %}
+            <span>You are logged in as {{ user }}</span>
+            &emsp;
+            <span><a href="{% url 'logout' %}">Logout</a></span>
+            {% endif %}
           </div>
         </div>
       </header>
@@ -43,7 +49,7 @@
       {% block content %}
       {% endblock  %}
     </div>
-<footer class="blog-footer">
+<footer class="blog-footer mt-5">
   <p>Django blog built with � by <a href="#">Aza Bla</a></p>
 </footer>
 </body>
