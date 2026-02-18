@@ -22,6 +22,7 @@ from blogs import views as BlogsView
 from django.conf.urls.static import static
 from django.conf import settings
 
+
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("", views.home, name="home"),
@@ -32,4 +33,6 @@ urlpatterns = [
     path("logout/", views.logout, name="logout"),
     # search url
     path("blog/search/", BlogsView.search, name="search"),
+    # Dashboard
+    path("dashboard/", include("dashboards.urls")),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
