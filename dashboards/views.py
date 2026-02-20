@@ -77,3 +77,27 @@ def add_post(request):
     form = BlogForm()
     context = {"form": form}
     return render(request, "dashboards/add_post.html", context)
+
+
+def edit_post(request, pk):
+
+    blog = get_object_or_404(Blog, pk=pk)
+    if request.method == "POST":
+        form = BlogForm(request.POST, request.FILES, instance=blog)
+        if form.is_valid():
+            post = form.save()
+            title = form.cleaned_data["title"] + "-" + str(post.id)
+            post.slug = slugify(title)
+            post.save()
+            return redirect("posts")
+
+    form = BlogForm(instance=blog)
+    context = {"form": form, "blog": blog}
+
+    return render(request, "dashboards/edit_post.html", context)
+
+
+def delete_post(reqeust, pk):
+    blog = get_object_or_404(Blog, pk=pk)
+    blog.delete()
+    return redirect("posts")
