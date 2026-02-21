@@ -16,4 +16,5 @@ urlpatterns = [
     path("post/delete/<int:pk>", views.delete_post, name="delete_post"),
     # user url
     path("users/", views.users, name="users"),
+    path("add_user/", views.add_user, name="add_user"),
 ]
