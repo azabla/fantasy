@@ -5,6 +5,7 @@
 <div class="row">
     {% include "dashboards/sidebar.html" %}
      <div class="col-md-9">
+      {% if perms.auth.view_user %}
         <h3>All Posts</h3>
         <a href="{% url "add_user" %}" class="btn btn-dark text-light float-right mb-3">Add User</a>
         <table class="table table-hover">
@@ -26,7 +27,7 @@
                 {% for user in users %}
               <tr>
                 <th scope="row">{{forloop.counter}}</th>
-                <td>{{user.first_name}} {{last_name}}</td>
+                <td>{{user.first_name}} {{user.last_name}}</td>
                 <td>{{user.username}}</td>
                 {% comment %} <td>{{user.short_description}}</td>
                 <td>{{user.blog_body}}</td> {% endcomment %}
@@ -34,12 +35,16 @@
                 <td>{% if user.is_active %}<i class="fa fa-check text-success" aria-hidden="true"></i>{% else %}<i class="fa fa-times text-danger" aria-hidden="true"></i>{% endif %}</td>
                 <td>{% if user.is_staff %}<i class="fa fa-check text-success" aria-hidden="true"></i>{% else %}<i class="fa fa-times text-danger" aria-hidden="true"></i>{% endif %}</td>
                 <td>{% if user.is_superuser %}<i class="fa fa-check text-success" aria-hidden="true"></i>{% else %}<i class="fa fa-times text-danger" aria-hidden="true"></i>{% endif %}</td>
-                <td><a href=""><i class="fa fa-pencil-square-o text-success" aria-hidden="true"></i></a></td>
-                <td><a href=""><i class="fa fa-trash-o text-danger" aria-hidden="true"></i></a></td>
+                <td><a href="{% url "edit_user" user.id %}"><i class="fa fa-pencil-square-o text-success" aria-hidden="true"></i></a></td>
+                <td><a href="{% url "delete_user" user.id %} "><i class="fa fa-trash-o text-danger" aria-hidden="true"></i></a></td>
               </tr>
               {% endfor %}
             </tbody>
           </table>
+          {% else %}
+          <p>you don't have permission for this page</p>
+          {% endif %}
+
      </div>
  </div>
 

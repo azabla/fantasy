@@ -5,7 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.template.defaultfilters import slugify
 from django.contrib.auth.models import User
 
-from .forms import AddUserForm, BlogForm, CategoryForm
+from .forms import AddUserForm, BlogForm, CategoryForm, EditUserForm
 
 # Create your views here.
 
@@ -123,3 +123,24 @@ def add_user(request):
         form = AddUserForm()
     context = {"form": form}
     return render(request, "dashboards/add_user.html", context)
+
+
+def edit_user(request, pk):
+    user = get_object_or_404(User, pk=pk)
+    if request.method == "POST":
+        form = EditUserForm(request.POST, instance=user)
+        if form.is_valid():
+            form.save()
+            return redirect("users")
+        else:
+            print(form.errors)
+    else:
+        form = EditUserForm(instance=user)
+    context = {"form": form, "user": user}
+    return render(request, "dashboards/edit_user.html", context)
+
+
+def delete_user(reqeust, pk):
+    user = get_object_or_404(User, pk=pk)
+    user.delete()
+    return redirect("users")
